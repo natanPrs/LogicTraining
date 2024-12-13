@@ -1,31 +1,21 @@
-import kotlin.math.sqrt
+import kotlin.math.pow
 
 fun main() {
-    println("Check all prime number up to a number!")
+    val exclude = mutableListOf<Int>()
+
+    println("Welcome to our Happy numbers checker!")
     print("Enter a Integer: ")
-    val number = readLine()?.toIntOrNull() ?: return println("Enter a valid number!")
-    val primes = mutableListOf<Int>()
+    var number = readLine()?.toIntOrNull() ?: return println("Enter a valid number!")
 
-    for (i in 2..number) {
-        if (primeChecker(i)){
-            primes.add(i)
+    while (number != 1) {
+        number = number.toString().sumOf { (it.digitToInt()).toDouble().pow(2) }.toInt()
+
+        if (exclude.contains(number)) {
+            println("Is not a happy number!")
+            return
         }
+        exclude.add(number)
     }
-
-    println("From 0 to $number the numbers ${primes.joinToString(", ")} are primes!")
+    println("Is a happy number!")
 }
 
-fun primeChecker(number: Int): Boolean {
-    val squareRoot = sqrt(number.toDouble()).toInt()
-
-    if (number < 2) return false
-
-    for (i in 3..squareRoot step 2) {
-        if (number % i == 0) {
-            return false
-        }
-    }
-
-    return true
-
-}
